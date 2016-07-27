@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CarpoolingCR</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="material.css"/>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+        <!-- Title -->
+        <figure><img src="map_icon.png" alt="Map icon" /></figure>
+        <span class="mdl-layout-title">CARPOOL.CR</span>
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+        <!-- Navigation. We hide it in small screens. -->
+        <nav class="mdl-navigation mdl-layout--large-screen-only">
+          <a class="mdl-navigation__link" href="">INICIO</a>
+          <a class="mdl-navigation__link" href="">NOSOTROS</a>
+          <a class="mdl-navigation__link" href="">BENEFICIOS</a>
+          <a class="mdl-navigation__link" href="">INGRESAR</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">Title</span>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+        <a class="mdl-navigation__link" href="">Link</a>
+      </nav>
+    </div>
+
+    <main class="mdl-layout__content">
+      <div class="page-content"><!-- Your content goes here --></div>
+    </main>
+  </div>
+
+  <div style="display: block;">
+    <!--
+      probar esto para mostrar datos, tabla dinamica
+    -->
+
+
+      <script type="text/javascript">
+        function createTable(){
+          var table = '';
+          var rows = 4;
+          var cols = 10;
+
+          for (var i = 0; i < rows; i++) {
+              table += '<tr>';
+              for (var c = 0; c < cols; c++) {
+                table += '<td>' + c + '</td>';
+              }
+              table += '</tr>';
+          }
+          document.write('<table border = 1>' + table + '</table>');
+        }
+      </script>
+
+  </div>
+
+
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+  </body>
+</html>
