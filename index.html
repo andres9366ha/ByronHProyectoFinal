@@ -38,35 +38,58 @@
     </div>
 
     <main class="mdl-layout__content">
-      <div class="page-content"><!-- Your content goes here --></div>
+      <div class="page-content">
+        <button type="button" name="button" onclick="Probar()">PROBAR</button>
+
+        <div id="dvTable">
+
+        </div>
+
+        <script type="text/javascript">
+          function Probar(){
+            var x = new Array();
+            var y = localStorage.getItem('users');
+            x = JSON.parse(y);
+            var table = document.createElement("TABLE");
+            table.border = "1";
+
+            var ths = ["Name", "Lastname", "Number"];
+            var columnCount = ths.length;
+
+
+            //Add Header Row
+            var row = table.insertRow(-1);
+            for (var i = 0; i < columnCount; i++) {
+              var headerCell = document.createElement("TH");
+              headerCell.innerHTML = ths[i];
+              row.appendChild(headerCell);
+            }
+
+            //Add the data rows.
+            for (var i = 0; i < x.length; i++) {
+              row = table.insertRow(-1);
+              for (var j = 0; j < ths.length; j++) {
+                var cell = row.insertCell(-1);
+                cell.innerHTML = x[i][j];
+              }
+            }
+
+            var dvTable = document.getElementById("dvTable");
+            dvTable.innerHTML = "";
+            dvTable.appendChild(table);
+
+
+  /*
+            for (var i = 0; i < x.length; i++) {
+              alert('Nombre: '+ x[i].name + ', apellido: ' + x[i].lastname + ', número telefónico: ' + x[i].number);
+            }*/
+          }
+        </script>
+      </div>
+
+
     </main>
   </div>
-
-  <div style="display: block;">
-    <!--
-      probar esto para mostrar datos, tabla dinamica
-    -->
-
-
-      <script type="text/javascript">
-        function createTable(){
-          var table = '';
-          var rows = 4;
-          var cols = 10;
-
-          for (var i = 0; i < rows; i++) {
-              table += '<tr>';
-              for (var c = 0; c < cols; c++) {
-                table += '<td>' + c + '</td>';
-              }
-              table += '</tr>';
-          }
-          document.write('<table border = 1>' + table + '</table>');
-        }
-      </script>
-
-  </div>
-
 
     <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
   </body>
