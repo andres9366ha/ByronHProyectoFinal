@@ -1,0 +1,66 @@
+#dvTable{
+
+  		position: absolute;
+  		/*nos posicionamos en el centro del navegador*/
+  		top:50%;
+  		left:35%;
+  		/*determinamos una anchura*/
+  		width:800px;
+  		/*indicamos que el margen izquierdo, es la mitad de la anchura*/
+  		margin-left:-200px;
+  		/*indicamos que el margen superior, es la mitad de la altura*/
+  		margin-top:-150px;
+  		border:1px solid #808080;
+  		padding:5px;
+      text-align: center;
+
+}
+
+#search{
+      position: absolute;
+      /*nos posicionamos en el centro del navegador*/
+      top:30%;
+      left:25%;
+
+      /*indicamos que el margen derecho, es la mitad de la anchura*/
+      margin-right: 20%;
+      /*indicamos que el margen superior, es la mitad de la altura*/
+      margin-top:-150px;
+      padding:5px;
+      text-align: center;
+}
+
+table{
+  width: 800px;
+  border-collapse: collapse;
+}
+
+table th{
+      background-color: rgb(76, 175, 80);
+      color: white;
+      padding: 10px;
+}
+
+footer{
+      text-align: center;
+}
+
+#formLogin{
+  position: absolute;
+  /*nos posicionamos en el centro del navegador*/
+  top:30%;
+  left:35%;
+  /*determinamos una anchura*/
+  width:800px;
+  /*indicamos que el margen izquierdo, es la mitad de la anchura*/
+  margin-left:-200px;
+  /*indicamos que el margen superior, es la mitad de la altura*/
+  margin-top:-150px;
+  padding:5px;
+  text-align: center;
+}
+
+button{
+  color: white;
+  background-color: rgb(76, 175, 80);
+}

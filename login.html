@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>CarpoolingCR</title>
+    <title>Login</title>
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.green-blue.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="styles.css">
@@ -23,7 +23,7 @@
             <div class="mdl-layout-spacer"></div>
 
             <!-- Navigation. We hide it in small screens. -->
-            <nav id="navBar" class="mdl-navigation mdl-layout--large-screen-only">
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
               <a class="mdl-navigation__link" href="">INICIO</a>
               <a class="mdl-navigation__link" href="">NOSOTROS</a>
               <a class="mdl-navigation__link" href="">BENEFICIOS</a>
@@ -45,22 +45,15 @@
         <main class="mdl-layout__content">
           <div class="page-content">
 
-            <form id="search" action="#">
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="sample3">
-                <label class="mdl-textfield__label" for="sample3">From...</label>
-              </div>
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="sample3">
-                <label class="mdl-textfield__label" for="sample3">To...</label>
-              </div>
-              <input class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-              type="button" name="name" value="Buscar" onclick="test()">
+            <form id="formLogin">
+              <label>Username</label><br>
+              <input type="text" name="Username" value="Input text"><br>
+              <label>Password</label> <br>
+              <input type="text" name="Password" value="Input Text"><br><br>
+              <label>Not an user?</label> <a class="link" href="signIn.html" target="_blank">Register Here</a><br><br>
+              <a href="#"><button type="button" name="button" onclick="login()">Login</button></a>
             </form>
-
-            <div id="dvTable"></div>
           </div>
-
 
         </main>
         <footer>Copyright (c) 2016 Copyright Holder All Rights Reserved.</footer>
