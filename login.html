@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.green-blue.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript" src="application.js"></script>
   </head>
 
   <body>
@@ -45,13 +44,19 @@
         <main class="mdl-layout__content">
           <div class="page-content">
 
-            <form id="formLogin">
+            <form id="alignedForm">
               <label>Username</label><br>
               <input type="text" name="Username" value="Input text"><br>
               <label>Password</label> <br>
               <input type="text" name="Password" value="Input Text"><br><br>
-              <label>Not an user?</label> <a class="link" href="signIn.html" target="_blank">Register Here</a><br><br>
-              <a href="#"><button type="button" name="button" onclick="login()">Login</button></a>
+              <label>Not an user?</label>
+              <a class="link" href="signIn.html">Register Here</a>
+              <br><br>
+
+              <a href=""><input class="mdl-button mdl-js-button
+                mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                type="button" name="name" value="LOGIN"></a>
+
             </form>
           </div>
 
@@ -61,5 +66,7 @@
     </div>
 
     <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script type="text/javascript" src="application.js"></script>
+
   </body>
 </html>
