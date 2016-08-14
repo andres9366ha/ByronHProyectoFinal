@@ -17,3 +17,27 @@ footer{
   padding:5px;
   text-align: center;
 }
+
+div.page-content{
+  position: absolute;
+  /*nos posicionamos en el centro del navegador*/
+  top:30%;
+  /*left:35%;
+  /*determinamos una anchura*/
+  width:100%;
+  /*indicamos que el margen izquierdo, es la mitad de la anchura*/
+  /*margin-left:-200px;
+  /*indicamos que el margen superior, es la mitad de la altura*/
+  margin-top:-150px;
+  padding:5px;
+  text-align: center;
+}
+
+#hrRide{
+  margin-left: 30%;
+  width: 40%;
+}
+
+#divDays{
+  padding-bottom: 50px;
+}

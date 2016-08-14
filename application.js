@@ -15,14 +15,6 @@ if(el){
   });
 }
 
-/*
-setInterval(function () {
-  var dinamictext = document.querySelector('dinamictext');
-    if (dinamictext.value !== localStorage['superValue']) {
-        dinamictext.value = localStorage['superValue'];
-    }
-}, 100);*/
-
 function getJson(user, pass){
   var myArray = [];
   myArray = JSON.parse(localStorage.getItem('rideUsers'));
@@ -30,11 +22,28 @@ function getJson(user, pass){
   for (var i = 0; i < myArray.length; i++) {
     if(user == myArray[i].username){
       if(pass == myArray[i].password){
+        debugger;
+        uploadTest(myArray[i]);
         return true;
         break;
       }
     }
   }
+}
+
+function uploadTest(test){
+  debugger;
+  sessionStorage.clear();
+  sessionStorage.setItem('activeUser', JSON.stringify(test));
+}
+
+function testSession(active){
+  var myArray = JSON.parse(sessionStorage.getItem('activeUser'));
+  myArray = myArray || [];     /*check if it's not null and create one if needed*/
+  myArray.push(person);
+  localStorage.setItem('activeUser', JSON.stringify(myArray));
+  alert("User in Session");
+  //location.reload(true);
 }
 
 /*Funciones de registro*/
@@ -134,14 +143,4 @@ function saveUser(person){
   localStorage.setItem('rideUsers', JSON.stringify(myArray));
   alert("User Added");
   location.reload(true);
-}
-
-function tableLoad(){
-  debugger;
-  var username = "bher";
-  var name = "Byron";
-
-  var row = "<tr><td>"+username+"</td><td>"+name+"</td></tr>";
-  var table = document.getElementById("users_table");
-    table.innerHTML = table.innerHTML + row;
 }
