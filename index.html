@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
   </head>
 
-  <body>
+  <body id="index">
 
       <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <header class="mdl-layout__header">
@@ -57,6 +57,20 @@
               type="button" name="name" value="Buscar" onclick="createTable()">
             </form>
 
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>USER</th>
+                    <th>START</th>
+                    <th>END</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+              <tbody id="publicRides">
+              </tbody>
+            </table>
+            </div>
 
         </main>
 

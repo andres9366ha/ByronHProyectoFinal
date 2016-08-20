@@ -1,3 +1,65 @@
+var rides = [];
+var index = document.getElementById('index');
+if (index != null) {
+    debugger;
+    window.addEventListener('load', function(){
+      debugger;
+      rides = JSON.parse(localStorage.getItem('rides'));
+      rides = rides || [];     /*check if it's not null and create one if needed*/
+      getAllRides();
+    });
+}
+
+var signIn = document.getElementById('signIn');
+if (signIn != null) {
+    debugger;
+    window.addEventListener('load', function(){
+    });
+}
+
+/*------------------------------------dashboard-------------------------------*/
+var dashboard = document.getElementById('dashboard');
+var userSession;
+if (dashboard != null) {
+    debugger;
+    window.addEventListener('load', function(){
+      rides = JSON.parse(localStorage.getItem('rides'));
+      rides = rides || [];     /*check if it's not null and create one if needed*/
+      debugger;
+      var aShowUser = document.getElementById('showUser');
+      var active = JSON.parse(sessionStorage.getItem('activeUser'));
+      aShowUser.innerHTML = active.username;
+      getOwnRides();
+    });
+}
+
+/*Obtener rides para mostrarlos en el dashboard personal*/
+function getOwnRides(){
+  debugger;
+  userSession = JSON.parse(sessionStorage.getItem('activeUser'));
+  //var test = userSession.username;
+
+  for (var i = 0; i < rides.length; i++) {
+    debugger;
+    if(rides[i].user == userSession.username){
+      var row = '<tr><td>'+rides[i].user+'</td><td>'+rides[i].start
+      +'</td>'+'<td>'+rides[i].end+'</td><td><a href="rides.html">Edit  -  </a><a href="rides.html">Delete</a></td></tr>';
+      var table = document.getElementById("ownRides");
+      table.innerHTML = table.innerHTML + row;
+    }
+  }
+}
+/*----------------------------dashboard---------------------------------------*/
+
+/*Obtener rides para mostrarlos en el dashboard publico*/
+function getAllRides(){
+  for (var i = 0; i < rides.length; i++) {
+    var row = "<tr><td>"+rides[i].user+"</td><td>"+rides[i].start+"</td>"+"<td>"+rides[i].end+"</td><td>View</td></tr>";
+    var table = document.getElementById("publicRides");
+    table.innerHTML = table.innerHTML + row;
+  }
+}
+
 /*Funciones de Login*/
 var el = document.getElementById('submitLogin');
 if(el){
@@ -22,8 +84,7 @@ function getJson(user, pass){
   for (var i = 0; i < myArray.length; i++) {
     if(user == myArray[i].username){
       if(pass == myArray[i].password){
-        debugger;
-        uploadTest(myArray[i]);
+        uploadUser(myArray[i]);
         return true;
         break;
       }
@@ -31,10 +92,11 @@ function getJson(user, pass){
   }
 }
 
-function uploadTest(test){
+/*Funcion que recibe usuario y lo coloca en el Session*/
+function uploadUser(user){
   debugger;
   sessionStorage.clear();
-  sessionStorage.setItem('activeUser', JSON.stringify(test));
+  sessionStorage.setItem('activeUser', JSON.stringify(user));
 }
 
 function testSession(active){
@@ -144,3 +206,118 @@ function saveUser(person){
   alert("User Added");
   location.reload(true);
 }
+
+/*---------------------------------RIDES--------------------------------------*/
+var rides = document.getElementById('rides');
+if (rides != null) {
+    debugger;
+    window.addEventListener('load', function(){
+      debugger;
+      var showUser = document.getElementById('userName');
+      userSession = JSON.parse(sessionStorage.getItem('activeUser'));
+      showUser.innerHTML = userSession.username;
+    });
+}
+
+
+
+var el = document.getElementById('addRide');
+if(el){
+  document.getElementById('addRide').addEventListener("click", function(){
+    if(checkInputs()){
+      if(checkHours()){
+        if(checkDays()){
+          alert('Ride Added');
+        }else {
+          alert('Problema al agregar Ride, verifique información');
+        }
+      }else {
+        alert('Problema al agregar Ride, verifique información');
+      }
+    }else {
+      alert('Problema al agregar Ride, verifique información');
+    }
+  });
+}
+
+function checkInputs(){
+  for (var i = 0; i < rideInfo.length; i++) {
+    if(rideInfo[i].type == 'text'){
+      var checkTest = rideInfo[i].value.replace(/\s/gi,'');
+      if(checkTest == null || checkTest.length == 0) {
+        alert("Campo sin rellenar -> " + rideInfo[i].id);
+        document.rideInfo.rideInfo[i].focus();
+        return false;
+        }
+      }
+    }
+    return true;
+};
+
+var time = new Object();
+
+function checkHours(){
+  time.deptHour = document.getElementById('departureHour').value;
+  time.deptSelect = document.getElementById('departureSelect').value;
+  time.arrvHour = document.getElementById('arriveHour').value;
+  time.arrvSelect = document.getElementById('arriveSelect').value;
+  if(time.deptHour == "" || time.arrvHour == ""){
+    alert("Registre horas correctamente");
+    return false;
+  }else {
+    return true;
+  }
+}
+
+var days = [];
+function checkDays(){
+    getDays();
+  if(days.length > 0){
+    createRide();
+    saveRide();
+    return true;
+  }else {
+    alert('Debe marcar al menos un día');
+  }
+}
+
+function getDays(){
+  days = [];
+  var divCont = document.getElementById('days');
+  var checks  = divCont.getElementsByTagName('input');
+  for(i=0;i<checks.length; i++){
+    if(checks[i].checked == true){
+      alert(checks[i].value);
+        days.push(checks[i].value);
+    }
+  }
+  //return days;
+}
+
+var ride = new Object();
+
+function createRide(){
+  debugger;
+  ride.user = document.getElementById('userName').innerHTML;
+  ride.name = document.getElementById('name').value;
+  ride.start = document.getElementById('start').value;
+  ride.end = document.getElementById('end').value;
+  ride.description = document.getElementById('description').value;
+  ride.departureFirst = document.getElementById('departureFirst').value;
+  ride.departureSecond = document.getElementById('departureSecond').value;
+  ride.arriveFirst = document.getElementById('arriveFirst').value;
+  ride.arriveSecond = document.getElementById('arriveSecond').value;
+  ride.days = days;
+}
+
+function saveRide(){
+  debugger;
+    var myArray = [];
+    myArray = JSON.parse(localStorage.getItem('rides'));
+    myArray = myArray || [];     /*check if it's not null and create one if needed*/
+    myArray.push(ride);
+    localStorage.setItem('rides', JSON.stringify(myArray));
+    location.reload(true);
+    ride = new Object();
+}
+/*---------------------------------END RIDES----------------------------------*/
