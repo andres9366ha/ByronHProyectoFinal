@@ -19,9 +19,8 @@ if (signIn != null) {
 
 /*------------------------------------dashboard-------------------------------*/
 var dashboard = document.getElementById('dashboard');
-var userSession;
+  var userSession;
 if (dashboard != null) {
-    debugger;
     window.addEventListener('load', function(){
       rides = JSON.parse(localStorage.getItem('rides'));
       rides = rides || [];     /*check if it's not null and create one if needed*/
@@ -30,25 +29,102 @@ if (dashboard != null) {
       var active = JSON.parse(sessionStorage.getItem('activeUser'));
       aShowUser.innerHTML = active.username;
       getOwnRides();
+      //show();
+      //testClass();
+      //tableTest();
     });
 }
 
-/*Obtener rides para mostrarlos en el dashboard personal*/
-function getOwnRides(){
+/*function tableTest(){
   debugger;
+  var x = document.getElementsByTagName("tr");
+    var txt = "";
+    var i;
+    for (i = 0; i < x.length;i++) {
+        txt = txt + "The index of Row "+(i+1)+" is: "+x[i].rowIndex+"<br>";
+    }
+    alert(txt);
+}*/
+
+/*Obtener rides para mostrarlos en el dashboard personal*/
+/*function getOwnRides(){
   userSession = JSON.parse(sessionStorage.getItem('activeUser'));
   //var test = userSession.username;
 
   for (var i = 0; i < rides.length; i++) {
-    debugger;
     if(rides[i].user == userSession.username){
       var row = '<tr><td>'+rides[i].user+'</td><td>'+rides[i].start
-      +'</td>'+'<td>'+rides[i].end+'</td><td><a href="rides.html">Edit  -  </a><a href="rides.html">Delete</a></td></tr>';
+      +'</td>'+'<td>'+rides[i].end+'</td><td><a href="" class="rideLink" '+
+      'onclick="alertMessage()">Edit  -  </a><a href="" class="rideLink" '+
+      'onclick="alertMessage()">Delete</a></td></tr>';
+      var table = document.getElementById("ownRides");
+      table.innerHTML = table.innerHTML + row;
+    }
+  }
+}*/
+
+function getOwnRides(){
+  userSession = JSON.parse(sessionStorage.getItem('activeUser'));
+  //var test = userSession.username;
+
+  for (var i = 0; i < rides.length; i++) {
+    if(rides[i].user == userSession.username){
+      var row = '<tr><td>'+rides[i].user+'</td><td>'+rides[i].start
+      +'</td>'+'<td>'+rides[i].end+'</td><td>OPTIONS</td></tr>';
       var table = document.getElementById("ownRides");
       table.innerHTML = table.innerHTML + row;
     }
   }
 }
+
+var table = document.getElementsByTagName("table")[0];
+var tbody = table.getElementsByTagName("tbody")[0];
+tbody.onclick = function (e) {
+    e = e || window.event;
+    debugger;
+    var data = [];
+    var target = e.srcElement || e.target;
+    if(e.srcElement.textContent == 'OPTIONS'){
+      while (target && target.nodeName !== "TR") {
+          target = target.parentNode;
+      }
+      if (target) {
+          var cells = target.getElementsByTagName("td");
+          for (var i = 0; i < cells.length; i++) {
+                data.push(cells[i].innerHTML);
+          }
+      }
+      setRideOption(data);
+    }
+};
+
+function setRideOption(data){
+
+}
+
+/*
+var link = document.getElementsByClassName('rideLink');
+if(link){
+  document.getElementsByClassName('rideLink').eventListener("click", function(){
+    debugger;
+      if(this.value == ""){
+        alert('test');
+      }
+  });
+}
+
+
+function show(){
+  debugger;
+  var aTags = document.getElementsByTagName('a');
+  for (var i = 0; i < aTags.length; i++) {
+    if(aTags[i].className == 'rideLink'){
+      aTags[i].addEventListener('click', alertMessage());
+    }
+  }
+}
+*/
+
 /*----------------------------dashboard---------------------------------------*/
 
 /*Obtener rides para mostrarlos en el dashboard publico*/
