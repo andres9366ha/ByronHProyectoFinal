@@ -47,6 +47,7 @@ function getOwnRides(){
   }
 }
 
+/*Función que permite hacer el último td link*/
 function tableLoad(){
   var table = document.getElementsByTagName("table")[0];
   var tbody = table.getElementsByTagName("tbody")[0];
@@ -69,10 +70,6 @@ function tableLoad(){
         location.href="rides.html";
       }
   };
-}
-
-function disableInputs(){
-
 }
 
 function setRideOption(data){
@@ -254,6 +251,8 @@ function saveUser(person){
 var rides = document.getElementById('rides');
 if (rides != null) {
     window.addEventListener('load', function(){
+      disableInputs();
+      makeEdit();
       var showUser = document.getElementById('userName');
       userSession = JSON.parse(sessionStorage.getItem('activeUser'));
       showUser.innerHTML = userSession.username;
@@ -282,6 +281,55 @@ function readOnly(){
     }
 }
 
+/*Método para habilidar inputs y checkbox*/
+function enableEdit(){
+  var form = document.getElementById("rideInfo");
+  var elements = form.elements;
+  for (var i = 0, len = elements.length; i < len; ++i) {
+    elements[i].readOnly = false;
+  }
+  var count = 0;
+  var formElems = document.getElementsByTagName('INPUT');
+    for (var i = 0; i , formElems.length; i++)
+    {
+       if (formElems[i].type == 'checkbox')
+       {
+         count ++;
+          formElems[i].disabled = false;
+          if(count == 7){
+            break;
+          }
+       }
+    }
+}
+
+/*Función que permite comprobar si hay ride a editar/eliminar o se creará
+uno nuevo*/
+function disableInputs(){
+  debugger;
+  var array = sessionStorage.getItem('rideOption');
+  if(array){
+    readOnly();
+    document.getElementById('editRide').style.display = "visible";
+  }else{
+    document.getElementById('editRide').style.display = "none";
+  }
+}
+
+var el = document.getElementById('editRide');
+if(el){
+  document.getElementById('editRide').addEventListener("click", function(){
+    enableEdit();
+  });
+}
+
+function makeEdit(){
+  debugger;
+  var btnEdit = document.getElementById('editRide');
+  if(btnEdit.isVisble() == false){
+    alert('edit button is visible');
+  }
+}
 
 var el = document.getElementById('addRide');
 if(el){
