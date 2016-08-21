@@ -4,10 +4,15 @@ if (index != null) {
     debugger;
     window.addEventListener('load', function(){
       debugger;
-      rides = JSON.parse(localStorage.getItem('rides'));
-      rides = rides || [];     /*check if it's not null and create one if needed*/
-      getAllRides();
+      setAllRidesToTable();
+      getRides();
     });
+}
+
+/*Traer todos los rides del localStorage*/
+function getRides(){
+  rides = JSON.parse(localStorage.getItem('rides'));
+  rides = rides || [];     /*check if it's not null and create one if needed*/
 }
 
 var signIn = document.getElementById('signIn');
@@ -24,8 +29,7 @@ var dashboard = document.getElementById('dashboard');
 if (dashboard != null) {
     window.addEventListener('load', function(){
       sessionStorage.removeItem('rideOption');
-      rides = JSON.parse(localStorage.getItem('rides'));
-      rides = rides || [];
+      getRides();
       var aShowUser = document.getElementById('showUser');
       var active = JSON.parse(sessionStorage.getItem('activeUser'));
       aShowUser.innerHTML = active.username;
@@ -34,6 +38,7 @@ if (dashboard != null) {
     });
 }
 
+/*poner los rides del usuario*/
 function getOwnRides(){
   userSession = JSON.parse(sessionStorage.getItem('activeUser'));
 
@@ -53,7 +58,6 @@ function tableLoad(){
   var tbody = table.getElementsByTagName("tbody")[0];
   table.onclick = function (e) {
       e = e || window.event;
-      debugger;
       var data = [];
       var target = e.srcElement || e.target;
       if(e.srcElement.textContent == 'OPTIONS'){
@@ -72,26 +76,10 @@ function tableLoad(){
   };
 }
 
-function setRideOption(data){
-
-  /*var myArray = [];
-  myArray = JSON.parse(localStorage.getItem('rideUsers'));
-  myArray = myArray || [];
-  for (var i = 0; i < myArray.length; i++) {
-    if(user == myArray[i].username){
-      if(pass == myArray[i].password){
-        uploadUser(myArray[i]);
-        return true;
-        break;
-      }
-    }
-  }*/
-}
-
 /*----------------------------dashboard---------------------------------------*/
 
 /*Obtener rides para mostrarlos en el dashboard publico*/
-function getAllRides(){
+function setAllRidesToTable(){
   for (var i = 0; i < rides.length; i++) {
     var row = "<tr><td>"+rides[i].user+"</td><td>"+rides[i].start+"</td>"+"<td>"+rides[i].end+"</td><td>View</td></tr>";
     var table = document.getElementById("publicRides");
@@ -138,16 +126,6 @@ function uploadUser(user){
   sessionStorage.setItem('activeUser', JSON.stringify(user));
 }
 
-/*
-function testSession(active){
-  var myArray = JSON.parse(sessionStorage.getItem('activeUser'));
-  myArray = myArray || [];
-  myArray.push(person);
-  localStorage.setItem('activeUser', JSON.stringify(myArray));
-  alert("User in Session");
-  //location.reload(true);
-}*/
-
 /*Funciones de registro*/
 var el2 = document.getElementById('addUser');
 if(el2){
@@ -174,16 +152,11 @@ var el3 = document.getElementById('repeatpass');
 /*Método que se encargará de validar passwords con evento */
 if(el3){
   document.getElementById('repeatpass').addEventListener('keyup', function validatePass(){
-    //Store the password field objects into variables ...
       var pass1 = document.getElementById('pass');
       var pass2 = document.getElementById('repeatpass');
-      //Store the Confimation Message Object ...
       var message = document.getElementById('confirmMessage');
-      //Set the colors we will be using ...
       var goodColor = "#66cc66";
       var badColor = "#ff6666";
-      //Compare the values in the password field
-      //and the confirmation field
       if(pass2.value == pass1.value){
           pass2.style.backgroundColor = goodColor;
           message.style.color = goodColor;
@@ -248,11 +221,11 @@ function saveUser(person){
 }
 
 /*---------------------------------RIDES--------------------------------------*/
-var rides = document.getElementById('rides');
-if (rides != null) {
+var bodyRides = document.getElementById('bodyRides');
+if (bodyRides != null) {
     window.addEventListener('load', function(){
       disableInputs();
-      makeEdit();
+      getRides();
       var showUser = document.getElementById('userName');
       userSession = JSON.parse(sessionStorage.getItem('activeUser'));
       showUser.innerHTML = userSession.username;
@@ -263,9 +236,14 @@ if (rides != null) {
 function readOnly(){
   var form = document.getElementById("rideInfo");
   var elements = form.elements;
+  document.getElementById('departureHour').readOnly = true;
+  document.getElementById('arriveHour').readOnly = true;
   for (var i = 0, len = elements.length; i < len; ++i) {
     elements[i].readOnly = true;
   }
+}
+
+function readOnlyCheck(){
   var count = 0;
   var formElems = document.getElementsByTagName('INPUT');
     for (var i = 0; i , formElems.length; i++)
@@ -285,9 +263,14 @@ function readOnly(){
 function enableEdit(){
   var form = document.getElementById("rideInfo");
   var elements = form.elements;
+  document.getElementById('departureHour').readOnly = false;
+  document.getElementById('arriveHour').readOnly = false;
   for (var i = 0, len = elements.length; i < len; ++i) {
     elements[i].readOnly = false;
   }
+}
+
+function enableEditCheck(){
   var count = 0;
   var formElems = document.getElementsByTagName('INPUT');
     for (var i = 0; i , formElems.length; i++)
@@ -305,12 +288,15 @@ function enableEdit(){
 
 /*Función que permite comprobar si hay ride a editar/eliminar o se creará
 uno nuevo*/
+var state = false;
 function disableInputs(){
-  debugger;
   var array = sessionStorage.getItem('rideOption');
   if(array){
     readOnly();
+    readOnlyCheck();
     document.getElementById('editRide').style.display = "visible";
+    state = true;
+    makeEdit(array);
   }else{
     document.getElementById('editRide').style.display = "none";
   }
@@ -320,14 +306,52 @@ var el = document.getElementById('editRide');
 if(el){
   document.getElementById('editRide').addEventListener("click", function(){
     enableEdit();
+    enableEditCheck();
   });
 }
 
-function makeEdit(){
+function makeEdit(array){
+  //recibir array y buscar ride para colocarlo en el form
+  //traer rides y buscar el correcto
+  //al encontrarlo colocarlo
   debugger;
-  var btnEdit = document.getElementById('editRide');
-  if(btnEdit.isVisble() == false){
-    alert('edit button is visible');
+  if(state){
+    var position = array.split(',');
+    rides = JSON.parse(localStorage.getItem('rides'));
+    for (var i = 0; i < rides.length; i++) {
+        if(position[0] == rides[i].user){
+          if(position[1] == rides[i].name){
+            putRide(rides[i]);
+            setChecks(rides[i]);
+            break;
+          }
+        }
+    }
+  }
+}
+
+function putRide(ride){
+  debugger;
+  document.getElementById('name').value = ride.name;
+  document.getElementById('start').value = ride.start;
+  document.getElementById('end').value = ride.end;
+  document.getElementById('description').value = ride.description;
+  document.getElementById('departureHour').value = ride.departureHour;
+  document.getElementById('arriveHour').value = ride.arriveHour;
+}
+
+function setChecks(ride){
+  debugger;
+  var array = ride.days;
+  var divCont = document.getElementById('days');
+  var checks  = divCont.getElementsByTagName('input');
+  for (var i = 0; i < array.length; i++) {
+    for (var j = 0; j < checks.length; j++) {
+      if(array[i] == checks[j].value){
+        document.getElementById(array[i]).checked=true;
+        break;
+      }
+    }
   }
 }
 
@@ -338,17 +362,37 @@ if(el){
       if(checkHours()){
         if(checkDays()){
           alert('Ride Added');
-        }else {
-          alert('Problema al agregar Ride, verifique información');
         }
-      }else {
-        alert('Problema al agregar Ride, verifique información');
       }
-    }else {
-      alert('Problema al agregar Ride, verifique información');
     }
   });
 }
+
+//si existe user en el sesion o ride se busca y se edita
+function editRide(ride){
+  //comprobar el user en sessionStorage
+  for (var i = 0; i < rides.length; i++) {
+      if(ride.name == rides[i].name){
+        if(ride.user == userSession.username){
+          //localStorage.removeItem('rides');
+              
+        }
+      }
+
+  }
+}
+function saveRide(){
+  debugger;
+    var myArray = [];
+    myArray = JSON.parse(localStorage.getItem('rides'));
+    myArray = myArray || [];     /*check if it's not null and create one if needed*/
+    myArray.push(ride);
+    localStorage.setItem('rides', JSON.stringify(myArray));
+    location.reload(true);
+    ride = new Object();
+}
+
+
 
 function checkInputs(){
   for (var i = 0; i < rideInfo.length; i++) {
@@ -368,10 +412,8 @@ var time = new Object();
 
 function checkHours(){
   time.deptHour = document.getElementById('departureHour').value;
-  time.deptSelect = document.getElementById('departureSelect').value;
   time.arrvHour = document.getElementById('arriveHour').value;
-  time.arrvSelect = document.getElementById('arriveSelect').value;
-  if(time.deptHour == "" || time.arrvHour == ""){
+  if((time.deptHour == "" || time.arrvHour == "") || (time.deptHour >= time.arrvHour)){
     alert("Registre horas correctamente");
     return false;
   }else {
@@ -401,7 +443,6 @@ function getDays(){
         days.push(checks[i].value);
     }
   }
-  //return days;
 }
 
 var ride = new Object();
@@ -413,10 +454,8 @@ function createRide(){
   ride.start = document.getElementById('start').value;
   ride.end = document.getElementById('end').value;
   ride.description = document.getElementById('description').value;
-  ride.departureFirst = document.getElementById('departureFirst').value;
-  ride.departureSecond = document.getElementById('departureSecond').value;
-  ride.arriveFirst = document.getElementById('arriveFirst').value;
-  ride.arriveSecond = document.getElementById('arriveSecond').value;
+  ride.departureHour = document.getElementById('departureHour').value;
+  ride.arriveHour = document.getElementById('arriveHour').value;
   ride.days = days;
 }
 
