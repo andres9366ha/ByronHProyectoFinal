@@ -19,111 +19,77 @@ if (signIn != null) {
 
 /*------------------------------------dashboard-------------------------------*/
 var dashboard = document.getElementById('dashboard');
+  debugger;
   var userSession;
 if (dashboard != null) {
     window.addEventListener('load', function(){
+      sessionStorage.removeItem('rideOption');
       rides = JSON.parse(localStorage.getItem('rides'));
-      rides = rides || [];     /*check if it's not null and create one if needed*/
-      debugger;
+      rides = rides || [];
       var aShowUser = document.getElementById('showUser');
       var active = JSON.parse(sessionStorage.getItem('activeUser'));
       aShowUser.innerHTML = active.username;
       getOwnRides();
-      //show();
-      //testClass();
-      //tableTest();
+      tableLoad();
     });
 }
 
-/*function tableTest(){
-  debugger;
-  var x = document.getElementsByTagName("tr");
-    var txt = "";
-    var i;
-    for (i = 0; i < x.length;i++) {
-        txt = txt + "The index of Row "+(i+1)+" is: "+x[i].rowIndex+"<br>";
-    }
-    alert(txt);
-}*/
-
-/*Obtener rides para mostrarlos en el dashboard personal*/
-/*function getOwnRides(){
-  userSession = JSON.parse(sessionStorage.getItem('activeUser'));
-  //var test = userSession.username;
-
-  for (var i = 0; i < rides.length; i++) {
-    if(rides[i].user == userSession.username){
-      var row = '<tr><td>'+rides[i].user+'</td><td>'+rides[i].start
-      +'</td>'+'<td>'+rides[i].end+'</td><td><a href="" class="rideLink" '+
-      'onclick="alertMessage()">Edit  -  </a><a href="" class="rideLink" '+
-      'onclick="alertMessage()">Delete</a></td></tr>';
-      var table = document.getElementById("ownRides");
-      table.innerHTML = table.innerHTML + row;
-    }
-  }
-}*/
-
 function getOwnRides(){
   userSession = JSON.parse(sessionStorage.getItem('activeUser'));
-  //var test = userSession.username;
 
   for (var i = 0; i < rides.length; i++) {
     if(rides[i].user == userSession.username){
-      var row = '<tr><td>'+rides[i].user+'</td><td>'+rides[i].start
-      +'</td>'+'<td>'+rides[i].end+'</td><td>OPTIONS</td></tr>';
+      var row = '<tr><td>'+rides[i].user+'</td><td>'+rides[i].name+'</td><td>'
+      +rides[i].start+'</td>'+'<td>'+rides[i].end+'</td><td>OPTIONS</td></tr>';
       var table = document.getElementById("ownRides");
       table.innerHTML = table.innerHTML + row;
     }
   }
 }
 
-var table = document.getElementsByTagName("table")[0];
-var tbody = table.getElementsByTagName("tbody")[0];
-tbody.onclick = function (e) {
-    e = e || window.event;
-    debugger;
-    var data = [];
-    var target = e.srcElement || e.target;
-    if(e.srcElement.textContent == 'OPTIONS'){
-      while (target && target.nodeName !== "TR") {
-          target = target.parentNode;
+function tableLoad(){
+  var table = document.getElementsByTagName("table")[0];
+  var tbody = table.getElementsByTagName("tbody")[0];
+  table.onclick = function (e) {
+      e = e || window.event;
+      debugger;
+      var data = [];
+      var target = e.srcElement || e.target;
+      if(e.srcElement.textContent == 'OPTIONS'){
+        while (target && target.nodeName !== "TR") {
+            target = target.parentNode;
+        }
+        if (target) {
+            var cells = target.getElementsByTagName("td");
+            for (var i = 0; i < cells.length; i++) {
+                  data.push(cells[i].innerHTML);
+            }
+        }
+        sessionStorage.setItem('rideOption', data);
+        location.href="rides.html";
       }
-      if (target) {
-          var cells = target.getElementsByTagName("td");
-          for (var i = 0; i < cells.length; i++) {
-                data.push(cells[i].innerHTML);
-          }
-      }
-      setRideOption(data);
-    }
-};
+  };
+}
+
+function disableInputs(){
+
+}
 
 function setRideOption(data){
 
-}
-
-/*
-var link = document.getElementsByClassName('rideLink');
-if(link){
-  document.getElementsByClassName('rideLink').eventListener("click", function(){
-    debugger;
-      if(this.value == ""){
-        alert('test');
+  /*var myArray = [];
+  myArray = JSON.parse(localStorage.getItem('rideUsers'));
+  myArray = myArray || [];
+  for (var i = 0; i < myArray.length; i++) {
+    if(user == myArray[i].username){
+      if(pass == myArray[i].password){
+        uploadUser(myArray[i]);
+        return true;
+        break;
       }
-  });
-}
-
-
-function show(){
-  debugger;
-  var aTags = document.getElementsByTagName('a');
-  for (var i = 0; i < aTags.length; i++) {
-    if(aTags[i].className == 'rideLink'){
-      aTags[i].addEventListener('click', alertMessage());
     }
-  }
+  }*/
 }
-*/
 
 /*----------------------------dashboard---------------------------------------*/
 
@@ -175,14 +141,15 @@ function uploadUser(user){
   sessionStorage.setItem('activeUser', JSON.stringify(user));
 }
 
+/*
 function testSession(active){
   var myArray = JSON.parse(sessionStorage.getItem('activeUser'));
-  myArray = myArray || [];     /*check if it's not null and create one if needed*/
+  myArray = myArray || [];
   myArray.push(person);
   localStorage.setItem('activeUser', JSON.stringify(myArray));
   alert("User in Session");
   //location.reload(true);
-}
+}*/
 
 /*Funciones de registro*/
 var el2 = document.getElementById('addUser');
@@ -286,15 +253,34 @@ function saveUser(person){
 /*---------------------------------RIDES--------------------------------------*/
 var rides = document.getElementById('rides');
 if (rides != null) {
-    debugger;
     window.addEventListener('load', function(){
-      debugger;
       var showUser = document.getElementById('userName');
       userSession = JSON.parse(sessionStorage.getItem('activeUser'));
       showUser.innerHTML = userSession.username;
     });
 }
 
+/*Método para deshabilidar inputs y checkbox*/
+function readOnly(){
+  var form = document.getElementById("rideInfo");
+  var elements = form.elements;
+  for (var i = 0, len = elements.length; i < len; ++i) {
+    elements[i].readOnly = true;
+  }
+  var count = 0;
+  var formElems = document.getElementsByTagName('INPUT');
+    for (var i = 0; i , formElems.length; i++)
+    {
+       if (formElems[i].type == 'checkbox')
+       {
+         count ++;
+          formElems[i].disabled = true;
+          if(count == 7){
+            break;
+          }
+       }
+    }
+}
 
 
 var el = document.getElementById('addRide');
