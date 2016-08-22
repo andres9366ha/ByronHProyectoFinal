@@ -569,15 +569,16 @@ function editUser(){
   debugger;
   var rideUsers = JSON.parse(localStorage.getItem('rideUsers'));
   var user = JSON.parse(sessionStorage.getItem('activeUser'));
+  var newUser;
     for (var i = 0; i < rideUsers.length; i++) {
       if(user.username == rideUsers[i].username){
-        rideUsers[i].name = document.getElementById('firstName').value;
-        rideUsers[i].lastname = document.getElementById('lastName').value;
-        rideUsers[i].phone = document.getElementById('phone').value;
-        rideUsers[i].speedAverage = document.getElementById('speedAverage').value;
-        rideUsers[i].aboutMe = document.getElementById('aboutMe').value;
+        newUser.name = document.getElementById('firstName').value;
+        newUser.lastname = document.getElementById('lastName').value;
+        newUser.phone = document.getElementById('phone').value;
+        newUser.speedAverage = document.getElementById('speedAverage').value;
+        newUser.aboutMe = document.getElementById('aboutMe').value;
         rideUsers.splice(i,1);
-        rideUsers.push(rideUsers[i]);
+        rideUsers.push(newUser);
         localStorage.setItem('rideUsers', JSON.stringify(rideUsers));
         users = new Object();
         break;
