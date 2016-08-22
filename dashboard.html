@@ -22,26 +22,24 @@
 
           <!-- Navigation. We hide it in small screens. -->
           <nav class="mdl-navigation mdl-layout--large-screen-only">
-            <a id="showUser" class="mdl-navigation__link" href=""></a>
-            <a class="mdl-navigation__link" href="">FOTO</a>
-            <a href="#"></a>
+            <a id="showUser" class="mdl-navigation__link" href="settings.html"></a>
+            <a id="signOut" class="mdl-navigation__link" href="login.html">SALIR</a>
           </nav>
         </div>
 
-        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-layout--large-screen-only">
           <a class="mdl-layout__tab is-active">Dashboard</a>
           <a href="rides.html" class="mdl-layout__tab">Rides</a>
           <a href="settings.html" class="mdl-layout__tab">Settings</a>
         </div>
       </header>
 
-      <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Title</span>
+      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+        <span class="mdl-layout-title">MENU</span>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>|
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
+          <a id="aActive" class="mdl-navigation__link">Dashboard</a>
+          <a class="mdl-navigation__link" href="rides.html">Rides</a>
+          <a class="mdl-navigation__link" href="settings.html">Settings</a>
         </nav>
       </div>
 
@@ -50,7 +48,7 @@
       <main class="mdl-layout__content">
         <div class="page-content">
 
-          <table class="mdl-data-table">
+          <table class="mdl-data-table mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
             <thead>
               <tr>
                 <th>USER</th>
@@ -69,7 +67,6 @@
                     type="button" name="button">ADD RIDE</button></a>
         </div>
       </main>
-      <footer>Copyright (c) 2016 Copyright Holder All Rights Reserved.</footer>
 
   </div>
 

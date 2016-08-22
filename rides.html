@@ -22,8 +22,8 @@
 
           <!-- Navigation. We hide it in small screens. -->
           <nav class="mdl-navigation mdl-layout--large-screen-only">
-            <a id="userName" class="mdl-navigation__link" href=""></a>
-            <a class="mdl-navigation__link" href="">FOTO</a>
+            <a id="userName" class="mdl-navigation__link" href="settings.html"></a>
+            <a id="signOut"class="mdl-navigation__link" href="login.html">SALIR</a>
           </nav>
         </div>
 
@@ -35,20 +35,19 @@
 
       </header>
 
-      <div class="mdl-layout__drawer">
+      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
         <span class="mdl-layout-title">Title</span>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>|
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
+          <a class="mdl-navigation__link" href="dashboard.html">Dashboard</a>
+          <a id="aActive" class="mdl-navigation__link" href="">Rides</a>
+          <a class="mdl-navigation__link" href="settings.html">Settings</a>
         </nav>
       </div>
 
       <main class="mdl-layout__content">
         <div class="page-content">
 
-                <section>
+                <section >
                   <form id="rideInfo">
                     <strong>Ride Name</strong><br>
                     <input id="name" type="text" name="name" value="Input text" required><br><br>

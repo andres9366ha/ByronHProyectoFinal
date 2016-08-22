@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./material.min.css">
     <link rel="stylesheet" href="styles.css">
   </head>
-  <body>
+  <body id="settings">
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
       <header class="mdl-layout__header">
 
@@ -21,26 +21,24 @@
 
           <!-- Navigation. We hide it in small screens. -->
           <nav class="mdl-navigation mdl-layout--large-screen-only">
-            <a id="userName" class="mdl-navigation__link" href=""></a>
-            <a class="mdl-navigation__link" href="">FOTO</a>
+            <a id="signOut" class="mdl-navigation__link" href="login.html">SALIR</a>
           </nav>
         </div>
 
         <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
           <a href="dashboard.html" class="mdl-layout__tab">Dashboard</a>
-          <a class="mdl-layout__tab is-active">Rides</a>
-          <a href="settings.html" class="mdl-layout__tab">Settings</a>
+          <a href="rides.html" class="mdl-layout__tab ">Rides</a>
+          <a class="mdl-layout__tab is-active">Settings</a>
         </div>
 
       </header>
 
-      <div class="mdl-layout__drawer">
+      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
         <span class="mdl-layout-title">Title</span>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>|
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
+          <a class="mdl-navigation__link" href="dashboard.html">Dashboard</a>
+          <a class="mdl-navigation__link" href="rides.html">Rides</a>
+          <a id="aActive" class="mdl-navigation__link">Settings</a>
         </nav>
       </div>
 
@@ -48,7 +46,7 @@
         <div class="page-content">
 
                 <section >
-                  <form id="userInfo">
+                  <form id="settingsInfo">
                     <strong>First Name</strong><br>
                     <input id="firstName" type="text" name="name" value="Input text" required><br><br>
                     <strong>Last Name</strong><br>
@@ -56,7 +54,7 @@
                     <strong>Phone</strong><br>
                     <input id="phone" type="text" name="name" value="Input text" required><br><br>
                     <strong>Speed Average</strong><br>
-                    <input id="speedAverage" type="text" name="name" value="Location" required><br><br>
+                    <input id="speedAverage" type="text" name="name" value="Not specified" required><br><br>
                     <strong>About Me</strong><br>
                     <textarea id="aboutMe" name="name" rows="8" cols="40">Something about me goes here</textarea>
                   </form>
@@ -66,12 +64,12 @@
                               mdl-button--raised mdl-js-ripple-effect
                                        mdl-button--accent">BACK</button></a>
 
-                  <button id="editUser" type="button" name="button"
+                  <button id="editSettings" type="button" name="button"
                               class="mdl-button mdl-js-button
                               mdl-button--raised mdl-js-ripple-effect
                               mdl-button--accent">EDIT</button>
 
-                  <button id="addRide"
+                  <button id="editUser"
                               class="mdl-button mdl-js-button
                               mdl-button--raised mdl-js-ripple-effect
                                                   mdl-button--accent"

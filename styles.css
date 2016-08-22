@@ -1,5 +1,13 @@
-footer{
-      text-align: center;
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
+  background-color: #DC9090; }
+
+#aActive{
+  background-color: rgb(224,224,224); }
+}
+
+#dashboardLink{
+  color: red;
+  text-decoration: underline;
 }
 
 /*____________________________________________________________________________*/
@@ -40,4 +48,8 @@ div.page-content{
 
 #divDays{
   padding-bottom: 50px;
+}
+
+#search{
+  margin-bottom: 50px;
 }

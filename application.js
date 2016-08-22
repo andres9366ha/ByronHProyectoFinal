@@ -15,12 +15,10 @@ function getRides(){
   rides = rides || [];     /*check if it's not null and create one if needed*/
 }
 
-var signIn = document.getElementById('signIn');
-if (signIn != null) {
-    debugger;
-    window.addEventListener('load', function(){
-    });
+function showEnablePlaces(){
+
 }
+
 
 /*------------------------------------dashboard-------------------------------*/
 var dashboard = document.getElementById('dashboard');
@@ -40,10 +38,11 @@ if (dashboard != null) {
 
 /*poner los rides del usuario*/
 function getOwnRides(){
-  userSession = JSON.parse(sessionStorage.getItem('activeUser'));
+  debugger;
+  var user = JSON.parse(sessionStorage.getItem('activeUser'));
 
   for (var i = 0; i < rides.length; i++) {
-    if(rides[i].user == userSession.username){
+    if(rides[i].user == user.username){
       var row = '<tr><td>'+rides[i].user+'</td><td>'+rides[i].name+'</td><td>'
       +rides[i].start+'</td>'+'<td>'+rides[i].end+'</td><td>OPTIONS</td></tr>';
       var table = document.getElementById("ownRides");
@@ -81,8 +80,10 @@ function tableLoad(){
 /*Obtener rides para mostrarlos en el dashboard publico*/
 function setAllRidesToTable(){
   debugger;
+  getRides();
   for (var i = 0; i < rides.length; i++) {
-    var row = "<tr><td>"+rides[i].user+"</td><td>"+rides[i].start+"</td>"+"<td>"+rides[i].end+"</td><td>View</td></tr>";
+    var row = '<tr><td>'+rides[i].user+'</td><td>'+rides[i].name+'</td><td>'
+      +rides[i].start+'</td>'+'<td>'+rides[i].end+'</td><td>View</td></tr>';
     var table = document.getElementById("publicRides");
     table.innerHTML = table.innerHTML + row;
   }
@@ -92,12 +93,12 @@ function setAllRidesToTable(){
 var el = document.getElementById('submitLogin');
 if(el){
   document.getElementById('submitLogin').addEventListener("click", function(){
+    debugger;
     var myArray = [];
     var user = document.getElementById('userLogin').value;
     var pass = document.getElementById('passwordLogin').value;
     //var messageDash = document.getElementById("dashTest");
     if (getJson(user, pass)) {
-        debugger;
         location.href = "dashboard.html";
     }else {
       alert("NO EXISTE USUARIO");
@@ -106,6 +107,7 @@ if(el){
 }
 
 function getJson(user, pass){
+  debugger;
   var myArray = [];
   myArray = JSON.parse(localStorage.getItem('rideUsers'));
   myArray = myArray || [];     /*check if it's not null and create one if needed*/
@@ -131,9 +133,10 @@ function uploadUser(user){
 var el2 = document.getElementById('addUser');
 if(el2){
   document.getElementById('addUser').addEventListener("click", function(){
+    debugger;
     var message1 = document.getElementById('confirmMessage').innerHTML;
     var message2 = 'Passwords Match!';
-    if(checkInputs()){
+    if(checkInputsSignIn()){
       if(checkUser()){
         if(message1 == message2){
             createUser();
@@ -172,7 +175,7 @@ if(el3){
   });
 }
 
-function checkInputs(){
+function checkInputsSignIn(){
   for (var i = 0; i < alignedForm.length; i++) {
     if((alignedForm[i].type == 'text') || (alignedForm[i].type == 'password')){
       var checkTest = alignedForm[i].value.replace(/\s/gi,'');
@@ -208,10 +211,13 @@ function createUser(){
   person.username = document.getElementById('username').value;
   person.password = document.getElementById('pass').value;
   person.repeatpass = document.getElementById('repeatpass').value;
+  person.speedAverage = 'Not specified';
+  person.aboutMe = 'Something about me goes here';
   saveUser(person);
 }
 
 function saveUser(person){
+  debugger;
   var myArray = [];
   myArray = JSON.parse(localStorage.getItem('rideUsers'));
   myArray = myArray || [];     /*check if it's not null and create one if needed*/
@@ -227,9 +233,10 @@ if (bodyRides != null) {
     window.addEventListener('load', function(){
       disableInputs();
       getRides();
+      debugger;
+      var user = JSON.parse(sessionStorage.getItem('activeUser'));
       var showUser = document.getElementById('userName');
-      userSession = JSON.parse(sessionStorage.getItem('activeUser'));
-      showUser.innerHTML = userSession.username;
+      showUser.innerHTML = user.username;
     });
 }
 
@@ -253,7 +260,7 @@ function readOnlyCheck(){
        {
          count ++;
           formElems[i].disabled = true;
-          if(count == 7){
+          if(count == 6){
             break;
           }
        }
@@ -267,7 +274,12 @@ function enableEdit(){
   document.getElementById('departureHour').readOnly = false;
   document.getElementById('arriveHour').readOnly = false;
   for (var i = 0, len = elements.length; i < len; ++i) {
-    elements[i].readOnly = false;
+    debugger;
+    if(elements[i].id == 'name'){
+      elements[i].readOnly = true;
+    }else{
+      elements[i].readOnly = false;
+    }
   }
 }
 
@@ -320,7 +332,7 @@ if(btnDelete){
     debugger;
     for (var i = 0; i < rides.length; i++) {
         if(document.getElementById('name').value == rides[i].name){
-          if(rides[i].user == userSession.username){
+          if(rides[i].user == userSession.userName){
             rides.splice(i,1);
             localStorage.setItem('rides', JSON.stringify(rides));
             location.reload(true);
@@ -392,11 +404,11 @@ if(el){
 
 //si existe user en el sesion o ride se busca y se edita
 function editRide(){
-  debugger;
   createRide();
+  var user = JSON.parse(sessionStorage.getItem('activeUser'));
   for (var i = 0; i < rides.length; i++) {
       if(ride.name == rides[i].name){
-        if(ride.user == userSession.username){
+        if(ride.user == user.username){
           rides.splice(i,1);
           rides.push(ride);
           localStorage.setItem('rides', JSON.stringify(rides));
@@ -462,7 +474,8 @@ var ride = new Object();
 
 function createRide(){
   debugger;
-  ride.user = document.getElementById('userName').innerHTML;
+  var user = JSON.parse(sessionStorage.getItem('activeUser'));
+  ride.user = user.username;
   ride.name = document.getElementById('name').value;
   ride.start = document.getElementById('start').value;
   ride.end = document.getElementById('end').value;
@@ -481,3 +494,110 @@ function saveRide(){
     ride = new Object();
 }
 /*---------------------------------END RIDES----------------------------------*/
+
+/*---------------------------------Settings------------------------------------*/
+var settings = document.getElementById('settings');
+if (settings != null) {
+    window.addEventListener('load', function(){
+      readOnlySettings();
+      loadUserSettings();
+      getUsers();
+    });
+}
+
+function readOnlySettings(){
+  var form = document.getElementById("settingsInfo");
+  var elements = form.elements;
+  for (var i = 0, len = elements.length; i < len; ++i) {
+    elements[i].readOnly = true;
+  }
+}
+
+function enableEditSettings(){
+  var form = document.getElementById("settingsInfo");
+  var elements = form.elements;
+  for (var i = 0, len = elements.length; i < len; ++i) {
+    elements[i].readOnly = false;
+  }
+}
+
+var btnEditSettings = document.getElementById('editSettings');
+if(btnEditSettings){
+  document.getElementById('editSettings').addEventListener("click", function(){
+    enableEditSettings();
+    document.getElementById('editSettings').disabled = true;
+  });
+}
+
+function loadUserSettings(){
+  var user = JSON.parse(sessionStorage.getItem('activeUser'));
+
+  document.getElementById('firstName').value = user.name;
+  document.getElementById('lastName').value = user.lastname;
+  document.getElementById('phone').value = user.phone;
+  document.getElementById('speedAverage').value = user.speedAverage;
+  document.getElementById('aboutMe').value = user.aboutMe;
+}
+
+/*Salir de sesión*/
+var linkSignOut = document.getElementById('signOut');
+if(linkSignOut){
+  document.getElementById('signOut').addEventListener("click", function(){
+    sessionStorage.clear();
+  });
+}
+
+var users = [];
+function getUsers(){
+  users = JSON.parse(localStorage.getItem('users'));
+  users = users || [];
+}
+
+var btnEditUser = document.getElementById('editUser');
+debugger;
+if(btnEditUser){
+  document.getElementById('editUser').addEventListener("click", function(){
+    if(checkEditInputs()){
+        editUser();
+        alert('User Edited');
+    }
+    document.getElementById('editUser').disabled = true;
+  });
+}
+
+function editUser(){
+  debugger;
+  var rideUsers = JSON.parse(localStorage.getItem('rideUsers'));
+  var user = JSON.parse(sessionStorage.getItem('activeUser'));
+    for (var i = 0; i < rideUsers.length; i++) {
+      if(user.username == rideUsers[i].username){
+        rideUsers[i].name = document.getElementById('firstName').value;
+        rideUsers[i].lastname = document.getElementById('lastName').value;
+        rideUsers[i].phone = document.getElementById('phone').value;
+        rideUsers[i].speedAverage = document.getElementById('speedAverage').value;
+        rideUsers[i].aboutMe = document.getElementById('aboutMe').value;
+        rideUsers.splice(i,1);
+        rideUsers.push(rideUsers[i]);
+        localStorage.setItem('rideUsers', JSON.stringify(rideUsers));
+        users = new Object();
+        break;
+      }
+    }
+}
+
+function checkEditInputs(){
+  debugger;
+  var form = document.getElementById("settingsInfo");
+  var elements = form.elements;
+  for (var i = 0; i < elements.length; i++) {
+    if(elements[i].type == 'text'){
+      var checkTest = elements[i].value.replace(/\s/gi,'');
+      if(checkTest == null || checkTest.length == 0) {
+        alert("Campo sin rellenar -> " + elements[i].id);
+        document.elements.elements[i].focus();
+        return false;
+        }
+      }
+    }
+    return true;
+};

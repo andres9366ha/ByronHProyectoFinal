@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>CarpoolingCR</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="material.min.css">
+    <link rel="stylesheet" href="./material.min.css">
     <link rel="stylesheet" href="styles.css">
   </head>
 
@@ -26,18 +26,17 @@
               <a class="mdl-navigation__link" href="">INICIO</a>
               <a class="mdl-navigation__link" href="">NOSOTROS</a>
               <a class="mdl-navigation__link" href="">BENEFICIOS</a>
-              <a class="mdl-navigation__link" href="">INGRESAR</a>
+              <a class="mdl-navigation__link" href="login.html">INGRESAR</a>
             </nav>
           </div>
         </header>
 
-        <div class="mdl-layout__drawer">
-          <span class="mdl-layout-title">Title</span>
+        <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+          <span class="mdl-layout-title">MENU</span>
           <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>|
-            <a class="mdl-navigation__link" href="">Link</a>
-            <a class="mdl-navigation__link" href="">Link</a>
+            <a class="mdl-navigation__link" href="login.html">Dashboard</a>
+            <a class="mdl-navigation__link" href="rides.html">Rides</a>
+            <a class="mdl-navigation__link" href="settings.html">Settings</a>
           </nav>
         </div>
 
@@ -58,7 +57,7 @@
             </form>
 
             <div>
-              <table>
+              <table class="mdl-data-table mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
                 <thead>
                   <tr>
                     <th>USER</th>
@@ -78,7 +77,7 @@
 
     </div>
 
-    <script defer src="material.min.js"></script>
+    <script src="./material.min.js"></script>
     <script type="text/javascript" src="application.js"></script>
 
   </body>
