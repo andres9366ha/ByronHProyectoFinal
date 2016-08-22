@@ -80,6 +80,7 @@ function tableLoad(){
 
 /*Obtener rides para mostrarlos en el dashboard publico*/
 function setAllRidesToTable(){
+  debugger;
   for (var i = 0; i < rides.length; i++) {
     var row = "<tr><td>"+rides[i].user+"</td><td>"+rides[i].start+"</td>"+"<td>"+rides[i].end+"</td><td>View</td></tr>";
     var table = document.getElementById("publicRides");
@@ -295,26 +296,42 @@ function disableInputs(){
     readOnly();
     readOnlyCheck();
     document.getElementById('editRide').style.display = "visible";
+    document.getElementById('deleteRide').style.display = "visible";
     state = true;
     makeEdit(array);
   }else{
     document.getElementById('editRide').style.display = "none";
+    document.getElementById('deleteRide').style.display = "none";
   }
 }
 
-var el = document.getElementById('editRide');
-if(el){
+var btnEdit = document.getElementById('editRide');
+if(btnEdit){
   document.getElementById('editRide').addEventListener("click", function(){
     enableEdit();
     enableEditCheck();
+    document.getElementById('editRide').disabled = true;
+  });
+}
+
+var btnDelete = document.getElementById('deleteRide');
+if(btnDelete){
+  document.getElementById('deleteRide').addEventListener("click", function(){
+    debugger;
+    for (var i = 0; i < rides.length; i++) {
+        if(document.getElementById('name').value == rides[i].name){
+          if(rides[i].user == userSession.username){
+            rides.splice(i,1);
+            localStorage.setItem('rides', JSON.stringify(rides));
+            location.reload(true);
+            break;
+          }
+        }
+    }
   });
 }
 
 function makeEdit(array){
-  //recibir array y buscar ride para colocarlo en el form
-  //traer rides y buscar el correcto
-  //al encontrarlo colocarlo
-  debugger;
   if(state){
     var position = array.split(',');
     rides = JSON.parse(localStorage.getItem('rides'));
@@ -331,7 +348,6 @@ function makeEdit(array){
 }
 
 function putRide(ride){
-  debugger;
   document.getElementById('name').value = ride.name;
   document.getElementById('start').value = ride.start;
   document.getElementById('end').value = ride.end;
@@ -341,7 +357,6 @@ function putRide(ride){
 }
 
 function setChecks(ride){
-  debugger;
   var array = ride.days;
   var divCont = document.getElementById('days');
   var checks  = divCont.getElementsByTagName('input');
@@ -361,7 +376,14 @@ if(el){
     if(checkInputs()){
       if(checkHours()){
         if(checkDays()){
-          alert('Ride Added');
+          if(state){
+            editRide();
+            alert('Ride Edited');
+          }else {
+            createRide();
+            saveRide();
+            alert('Ride Added');
+          }
         }
       }
     }
@@ -369,30 +391,22 @@ if(el){
 }
 
 //si existe user en el sesion o ride se busca y se edita
-function editRide(ride){
-  //comprobar el user en sessionStorage
+function editRide(){
+  debugger;
+  createRide();
   for (var i = 0; i < rides.length; i++) {
       if(ride.name == rides[i].name){
         if(ride.user == userSession.username){
-          //localStorage.removeItem('rides');
-              
+          rides.splice(i,1);
+          rides.push(ride);
+          localStorage.setItem('rides', JSON.stringify(rides));
+          location.reload(true);
+          ride = new Object();
+          break;
         }
       }
-
   }
 }
-function saveRide(){
-  debugger;
-    var myArray = [];
-    myArray = JSON.parse(localStorage.getItem('rides'));
-    myArray = myArray || [];     /*check if it's not null and create one if needed*/
-    myArray.push(ride);
-    localStorage.setItem('rides', JSON.stringify(myArray));
-    location.reload(true);
-    ride = new Object();
-}
-
-
 
 function checkInputs(){
   for (var i = 0; i < rideInfo.length; i++) {
@@ -425,8 +439,8 @@ var days = [];
 function checkDays(){
     getDays();
   if(days.length > 0){
-    createRide();
-    saveRide();
+    //createRide();
+    //saveRide();
     return true;
   }else {
     alert('Debe marcar al menos un día');
@@ -439,7 +453,6 @@ function getDays(){
   var checks  = divCont.getElementsByTagName('input');
   for(i=0;i<checks.length; i++){
     if(checks[i].checked == true){
-      alert(checks[i].value);
         days.push(checks[i].value);
     }
   }
@@ -461,11 +474,9 @@ function createRide(){
 
 function saveRide(){
   debugger;
-    var myArray = [];
-    myArray = JSON.parse(localStorage.getItem('rides'));
-    myArray = myArray || [];     /*check if it's not null and create one if needed*/
-    myArray.push(ride);
-    localStorage.setItem('rides', JSON.stringify(myArray));
+    rides = rides || [];
+    rides.push(ride);
+    localStorage.setItem('rides', JSON.stringify(rides));
     location.reload(true);
     ride = new Object();
 }
